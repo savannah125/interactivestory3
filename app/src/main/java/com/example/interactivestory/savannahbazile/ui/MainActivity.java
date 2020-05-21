@@ -1,13 +1,15 @@
-package com.example.interactivestory.savannahbazile;
+package com.example.interactivestory.savannahbazile.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.interactivestory.savannahbazile.R;
 
 public class MainActivity extends AppCompatActivity {
     EditText userInput;
@@ -27,15 +29,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = userInput.getText().toString();
-                Toast.makeText(MainActivity.this, name, Toast.LENGTH_SHORT).show();
-                startStory();
+                startStory(name);
             }
         });
     }
 
-    public void startStory() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userInput.setText("");
+    }
+
+    private void startStory(String name) {
+
+        Resources resources = getResources();
+        String key = resources.getString(R.string.user_name);
 
         Intent intent = new Intent(MainActivity.this, StoryActivity.class);
+        intent.putExtra(key, name);
         startActivity(intent);
     }
 }
